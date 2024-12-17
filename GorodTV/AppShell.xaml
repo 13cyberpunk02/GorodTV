@@ -3,7 +3,18 @@
     x:Class="GorodTV.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:GorodTV"
-    Shell.FlyoutBehavior="Flyout"
-    Title="GorodTV">
+    xmlns:pages="clr-namespace:GorodTV.Pages"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Gorod TV">
+    
+    <ShellContent ContentTemplate="{DataTemplate pages:LoadingPage}"
+                  Route="LoadingPage"
+                  Shell.NavBarIsVisible="False"/>
+    
+    <ShellContent ContentTemplate="{DataTemplate pages:LoginPage}"
+                  Route="LoginPage"
+                  Shell.NavBarIsVisible="False"/>
+    
+    <ShellContent ContentTemplate="{DataTemplate pages:CategoryPage}"
+                  Route="CategoryPage"/>
 </Shell>

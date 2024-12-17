@@ -12,5 +12,6 @@ Global
 		{10DB3665-84DF-4ED0-923F-F9792B9AEB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10DB3665-84DF-4ED0-923F-F9792B9AEB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10DB3665-84DF-4ED0-923F-F9792B9AEB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10DB3665-84DF-4ED0-923F-F9792B9AEB7A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GorodTV.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:GorodTV.ModelViews"
+    x:DataType="vm:LoginViewModel"
+    Background="White">
+    <Shell.TitleView>
+        <Label
+            FontAttributes="Bold"
+            FontFamily="RussoOneRegular"
+            FontSize="20"
+            HorizontalOptions="Center"
+            Text="Авторизация"
+            TextColor="White"
+            VerticalOptions="Center" />
+    </Shell.TitleView>
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid Padding="20" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Логотип  -->
+            <Image
+                Grid.Row="0"
+                Aspect="AspectFit"
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Source="logo.svg"
+                VerticalOptions="Center"
+                WidthRequest="200" />
+
+            <!--  Форма  -->
+            <StackLayout
+                Grid.Row="1"
+                Spacing="15"
+                VerticalOptions="Center">
+                <Label
+                    FontFamily="RussoOneRegular"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    Text="Введите ваш номер договора и пароль, чтобы авторизоваться."
+                    TextColor="Green"
+                    VerticalOptions="Center" />
+                <Border
+                    Margin="5"
+                    Padding="2"
+                    Opacity="90"
+                    Stroke="#091775"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    StrokeThickness="1"
+                    WidthRequest="350">
+                    <Entry
+                        Margin="10"
+                        BackgroundColor="#FFFFFF"
+                        FontFamily="RussoOneRegular"
+                        FontSize="16"
+                        HeightRequest="40"
+                        Keyboard="Numeric"
+                        Placeholder="Номер договора"
+                        PlaceholderColor="#000000"
+                        Text="{Binding Username}"
+                        TextColor="#000000" />
+                </Border>
+                <Border
+                    Margin="5"
+                    Padding="2"
+                    Opacity="90"
+                    Stroke="#091775"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    StrokeThickness="1"
+                    WidthRequest="350">
+                    <Entry
+                        Margin="10"
+                        BackgroundColor="#FFFFFF"
+                        FontFamily="RussoOneRegular"
+                        FontSize="16"
+                        HeightRequest="40"
+                        IsPassword="True"
+                        Keyboard="Numeric"
+                        Placeholder="Пароль"
+                        PlaceholderColor="#000000"
+                        Text="{Binding Password}"
+                        TextColor="#000000" />
+                </Border>
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                Orientation="Vertical"
+                Spacing="10"
+                VerticalOptions="End">
+                <Button
+                    Margin="0,0,0,50"
+                    Padding="10"
+                    BackgroundColor="#0D22B0"
+                    Command="{Binding LoginCommand}"
+                    CornerRadius="50"
+                    FontAttributes="Bold"
+                    FontFamily="RussoOneRegular"
+                    FontSize="20"
+                    HeightRequest="50"
+                    Text="Войти"
+                    TextColor="#FFFFFF"
+                    WidthRequest="200" />
+                <Label
+                    FontFamily="RussoOneRegular"
+                    FontSize="24"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                    Text="{Binding ErrorMessage}"
+                    TextColor="Red"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
