@@ -2,8 +2,70 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:GorodTV.ModelViews"
              x:Class="GorodTV.Pages.ChannelPage">
+    
+    <Shell.TitleView>
+        <Label 
+            FontSize="20" 
+            FontAttributes="Bold"
+            FontFamily="RussoOneRegular"
+            TextColor="White"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="{Binding CategoryName}" />
+    </Shell.TitleView>
+    
+    <ContentPage.BindingContext>
+        <vm:ChannelViewModel />
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
-        
+        <CollectionView
+            ItemsSource="{Binding Channels}"
+            SelectedItem="{Binding SelectedChannel, Mode=TwoWay}"
+            SelectionMode="Single">
+            
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout 
+                    HorizontalItemSpacing="10"
+                    Orientation="Vertical"
+                    Span="4"
+                    VerticalItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Stroke="#FFFFFF"
+                        BackgroundColor="#091775"
+                        StrokeThickness="3"
+                        Opacity="90"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        Margin="5"
+                        Padding="2">
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            Orientation="Vertical">
+                            <Image 
+                                Aspect="AspectFit"
+                                HeightRequest="50"
+                                HorizontalOptions="Center"
+                                Source="{Binding Icon}"
+                                WidthRequest="50"/>
+                            <Label
+                                Text="{Binding Name}"
+                                TextColor="White"
+                                FontSize="16"
+                                Margin="5"
+                                FontFamily="RussoOneRegular"
+                                HorizontalOptions="Center"
+                                VerticalTextAlignment="Center"/>
+                        </StackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            
+        </CollectionView>
     </ContentPage.Content>
 </ContentPage>

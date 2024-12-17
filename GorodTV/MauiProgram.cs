@@ -34,10 +34,12 @@ public static class MauiProgram
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<CategoryPage>();
         builder.Services.AddTransient<ChannelPage>();
+        builder.Services.AddTransient<EpgsPage>();
         
         //ModelViews
         builder.Services.AddScoped<LoginViewModel>();
         builder.Services.AddScoped<CategoryViewModel>();
+        builder.Services.AddScoped<ChannelViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

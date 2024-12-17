@@ -21,4 +21,7 @@
     
     <ShellContent ContentTemplate="{DataTemplate pages:ChannelPage}"
                   Route="ChannelPage"/>
+    
+    <ShellContent ContentTemplate="{DataTemplate pages:EpgsPage}"
+                  Route="EpgsPage"/>
 </Shell>
