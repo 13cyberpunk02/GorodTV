@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using GorodTV.ModelViews;
 using GorodTV.Pages;
 using GorodTV.Services;
 using GorodTV.Services.Interfaces;
@@ -26,13 +27,17 @@ public static class MauiProgram
         
         //Services
         builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<IRestService, RestService>();
         
         //UIs
         builder.Services.AddTransient<LoadingPage>();
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<CategoryPage>();
+        builder.Services.AddTransient<ChannelPage>();
         
         //ModelViews
+        builder.Services.AddScoped<LoginViewModel>();
+        builder.Services.AddScoped<CategoryViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();

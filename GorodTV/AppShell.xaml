@@ -16,5 +16,9 @@
                   Shell.NavBarIsVisible="False"/>
     
     <ShellContent ContentTemplate="{DataTemplate pages:CategoryPage}"
-                  Route="CategoryPage"/>
+                  Route="CategoryPage"
+                  Shell.BackgroundColor="#0D22B0"/>
+    
+    <ShellContent ContentTemplate="{DataTemplate pages:ChannelPage}"
+                  Route="ChannelPage"/>
 </Shell>
