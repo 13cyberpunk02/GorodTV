@@ -20,8 +20,12 @@
                   Shell.BackgroundColor="#0D22B0"/>
     
     <ShellContent ContentTemplate="{DataTemplate pages:ChannelPage}"
-                  Route="ChannelPage"/>
+                  Route="ChannelPage"
+                  Shell.BackgroundColor="#0D22B0" />
     
     <ShellContent ContentTemplate="{DataTemplate pages:EpgsPage}"
                   Route="EpgsPage"/>
+    
+    <ShellContent ContentTemplate="{DataTemplate pages:PlayerPage}"
+                  Route="PlayerPage"/>
 </Shell>
