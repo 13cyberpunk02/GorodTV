@@ -78,7 +78,10 @@ public partial class ChannelViewModel :  ObservableObject, IQueryAttributable
         {
             { "channelId", SelectedChannel.Id },            
             { "channelLink", link },
-            { "channelName", SelectedChannel.Name}
+            { "channelName", SelectedChannel.Name },
+            { "categoryId", CategoryId },
+            { "categoryName", CategoryName }
+            
         };
         SelectedChannel = null;
         await Shell.Current.GoToAsync($"///{nameof(EpgsPage)}", parameters);

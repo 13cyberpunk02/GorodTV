@@ -21,6 +21,10 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
     [ObservableProperty] 
     private OnlineStream _onlineStream;
     [ObservableProperty] 
+    private string _categoryId;
+    [ObservableProperty] 
+    private string _categoryName;
+    [ObservableProperty] 
     private Dictionary<int, string> _timeStamps;
     [ObservableProperty] 
     private ObservableCollection<Epg> _epgs;
@@ -75,7 +79,8 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
         var parameters = new Dictionary<string, object>
         {
             { "channelLink", link },
-            { "channelName", OnlineStream.Name}
+            { "channelName", OnlineStream.Name},
+            { "channelId", ChannelId}
         };
         OnlineStream = null;
         await Shell.Current.GoToAsync($"///{nameof(PlayerPage)}", parameters);
@@ -95,7 +100,8 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
         var parameters = new Dictionary<string, object>
         {
             { "channelLink", link },
-            { "channelName", ChannelName }
+            { "channelName", ChannelName },
+            { "channelId", ChannelId}
         };
         await Shell.Current.GoToAsync($"///{nameof(PlayerPage)}", parameters);
     }
@@ -131,8 +137,24 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 
         if (query.ContainsKey("channelName") && query["channelName"] is not null)
             ChannelName = query["channelName"] as string;
+        
+        if (query.ContainsKey("categoryId") && query["categoryId"] is not null)
+            CategoryId = query["categoryId"] as string;
+
+        if (query.ContainsKey("categoryName") && query["categoryName"] is not null)
+            CategoryName = query["categoryName"] as string;
 
         LoadEpgsCommand.Execute(null);  
+    }
+    
+    public void GoBackToChannelsPage()
+    {
+        var parameters = new Dictionary<string, object>
+        {
+            { "categoryId", CategoryId },
+            { "categoryName", CategoryName }
+        };
+        Shell.Current.GoToAsync($"///{nameof(ChannelPage)}", parameters);
     }
     
     public void ClearBackwardsFromEpg()

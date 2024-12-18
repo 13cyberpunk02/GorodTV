@@ -2,8 +2,20 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:GorodTV.ModelViews"
              x:Class="GorodTV.Pages.PlayerPage">
+    
+    <ContentPage.BindingContext>
+        <vm:PlayerViewModel />
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
-        
+        <Grid>
+            <toolkit:MediaElement
+                x:Name="Player"
+                ShouldAutoPlay="True"
+                Source="{Binding ChannelLink}" />
+        </Grid>
     </ContentPage.Content>
-</ContentPage>
+</ContentPage>  

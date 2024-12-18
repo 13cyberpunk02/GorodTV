@@ -23,24 +23,18 @@
         <Grid 
             Padding="10"
             RowDefinitions="Auto, *">
-            <Border
-                Stroke="#FFFFFF"
-                BackgroundColor="#FF0000"
-                StrokeThickness="3"
-                StrokeShape="RoundRectangle 20,20,20,20"
-                Margin="5"
-                Padding="10"
-                Width="250"
-                HeightRequest="75">
-                <Label
+                <Button
                     FontFamily="RussoOneRegular"
                     HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"
+                    FontSize="16"
                     VerticalOptions="Center"
-                    VerticalTextAlignment="Center"
-                    Text="Прямая трансляция"
+                    Command="{Binding StartLiveBroadcastCommand}"
+                    Text="Смотреть прямую трансляцию"
+                    BackgroundColor="Red"
+                    CornerRadius="20"
+                    WidthRequest="300"
+                    HeightRequest="75"
                     TextColor="#FFFFFF" />
-            </Border>
             <CollectionView
                 Grid.Row="1"
                 Margin="10"

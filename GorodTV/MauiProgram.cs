@@ -42,6 +42,7 @@ public static class MauiProgram
         builder.Services.AddScoped<CategoryViewModel>();
         builder.Services.AddScoped<ChannelViewModel>();
         builder.Services.AddScoped<EpgsViewModel>();
+        builder.Services.AddScoped<PlayerViewModel>();  
         
 
 #if DEBUG
