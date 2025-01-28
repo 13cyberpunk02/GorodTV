@@ -1,71 +1,75 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:GorodTV.ModelViews"
-             x:Class="GorodTV.Pages.ChannelPage">
-    
+<ContentPage
+    x:Class="GorodTV.Pages.ChannelPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:GorodTV.ModelViews"
+    Shell.BackgroundColor="#0D22B0">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <Shell.TitleView>
-        <Label 
-            FontSize="20" 
+        <Label
             FontAttributes="Bold"
             FontFamily="RussoOneRegular"
-            TextColor="White"
+            FontSize="20"
             HorizontalOptions="Center"
-            VerticalOptions="Center"
-            Text="{Binding CategoryName}" />
+            Text="{Binding CategoryName}"
+            TextColor="White"
+            VerticalOptions="Center" />
     </Shell.TitleView>
-    
+
     <ContentPage.BindingContext>
         <vm:ChannelViewModel />
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Content>
         <CollectionView
             ItemsSource="{Binding Channels}"
             SelectedItem="{Binding SelectedChannel, Mode=TwoWay}"
             SelectionMode="Single">
-            
+
             <CollectionView.ItemsLayout>
-                <GridItemsLayout 
+                <GridItemsLayout
                     HorizontalItemSpacing="10"
                     Orientation="Vertical"
                     Span="4"
-                    VerticalItemSpacing="10"/>
+                    VerticalItemSpacing="10" />
             </CollectionView.ItemsLayout>
-            
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border
-                        Stroke="#FFFFFF"
-                        BackgroundColor="#091775"
-                        StrokeThickness="3"
-                        Opacity="90"
-                        StrokeShape="RoundRectangle 20,20,20,20"
                         Margin="5"
-                        Padding="2">
-                        <StackLayout
-                            HorizontalOptions="Center"
-                            Orientation="Vertical">
-                            <Image 
+                        Padding="2"
+                        BackgroundColor="#091775"
+                        Opacity="90"
+                        Stroke="#FFFFFF"
+                        StrokeShape="RoundRectangle 20,20,20,20"
+                        StrokeThickness="3">
+                        <StackLayout HorizontalOptions="Center" Orientation="Vertical">
+                            <Image
                                 Aspect="AspectFit"
                                 HeightRequest="50"
                                 HorizontalOptions="Center"
                                 Source="{Binding Icon}"
-                                WidthRequest="50"/>
+                                WidthRequest="50" />
                             <Label
-                                Text="{Binding Name}"
-                                TextColor="White"
-                                FontSize="16"
                                 Margin="5"
                                 FontFamily="RussoOneRegular"
+                                FontSize="16"
                                 HorizontalOptions="Center"
-                                VerticalTextAlignment="Center"/>
+                                Text="{Binding Name}"
+                                TextColor="White"
+                                VerticalTextAlignment="Center" />
                         </StackLayout>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            
+
         </CollectionView>
     </ContentPage.Content>
 </ContentPage>

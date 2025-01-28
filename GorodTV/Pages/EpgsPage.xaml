@@ -1,40 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:GorodTV.ModelViews"
-             x:Class="GorodTV.Pages.EpgsPage">
+<ContentPage
+    x:Class="GorodTV.Pages.EpgsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:GorodTV.ModelViews"
+    Shell.BackgroundColor="#0D22B0">
+
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <Shell.TitleView>
-        <Label  
-            Text="{Binding ChannelName}" 
-            FontSize="20"
+        <Label
             FontAttributes="Bold"
             FontFamily="RussoOneRegular"
-            TextColor="White"
+            FontSize="20"
             HorizontalOptions="Center"
-            VerticalOptions="Center"/>
+            Text="{Binding ChannelName}"
+            TextColor="White"
+            VerticalOptions="Center" />
     </Shell.TitleView>
-    
+
     <ContentPage.BindingContext>
         <vm:EpgsViewModel />
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Content>
-        <Grid 
-            Padding="10"
-            RowDefinitions="Auto, *">
-                <Button
-                    FontFamily="RussoOneRegular"
-                    HorizontalOptions="Center"
-                    FontSize="16"
-                    VerticalOptions="Center"
-                    Command="{Binding StartLiveBroadcastCommand}"
-                    Text="Смотреть прямую трансляцию"
-                    BackgroundColor="Red"
-                    CornerRadius="20"
-                    WidthRequest="300"
-                    HeightRequest="75"
-                    TextColor="#FFFFFF" />
+        <Grid Padding="10" RowDefinitions="Auto, *">
+            <Button
+                BackgroundColor="Red"
+                Command="{Binding StartLiveBroadcastCommand}"
+                CornerRadius="20"
+                FontFamily="RussoOneRegular"
+                FontSize="16"
+                HeightRequest="75"
+                HorizontalOptions="Center"
+                Text="Смотреть прямую трансляцию"
+                TextColor="#FFFFFF"
+                VerticalOptions="Center"
+                WidthRequest="300" />
             <CollectionView
                 Grid.Row="1"
                 Margin="10"
@@ -44,13 +50,13 @@
                 SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border 
-                            Stroke="#FFFFFF"
-                            BackgroundColor="#091775"
-                            StrokeThickness="3"
-                            StrokeShape="RoundRectangle 20,20,20,20"
+                        <Border
                             Margin="5"
                             Padding="2"
+                            BackgroundColor="#091775"
+                            Stroke="#FFFFFF"
+                            StrokeShape="RoundRectangle 20,20,20,20"
+                            StrokeThickness="3"
                             WidthRequest="350">
                             <VerticalStackLayout Spacing="5">
                                 <Label

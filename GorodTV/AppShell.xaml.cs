@@ -8,11 +8,11 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
         
-        Routing.RegisterRoute(nameof(LoadingPage), typeof(LoadingPage));
-        Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-        Routing.RegisterRoute(nameof(CategoryPage), typeof(CategoryPage));
-        Routing.RegisterRoute(nameof(ChannelPage), typeof(ChannelPage));
-        Routing.RegisterRoute(nameof(EpgsPage), typeof(EpgsPage));
-        Routing.RegisterRoute(nameof(PlayerPage), typeof(PlayerPage));
+        Routing.RegisterRoute("loading", typeof(LoadingPage));
+        Routing.RegisterRoute("login", typeof(LoginPage));
+        Routing.RegisterRoute("category", typeof(CategoryPage));
+        Routing.RegisterRoute("category/channel", typeof(ChannelPage));
+        Routing.RegisterRoute("category/channel/epg", typeof(EpgsPage));
+        Routing.RegisterRoute("category/channel/epg/player", typeof(PlayerPage));
     }
 }

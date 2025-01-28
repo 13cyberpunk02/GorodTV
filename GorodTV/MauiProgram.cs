@@ -26,23 +26,23 @@ public static class MauiProgram
             });
         
         //Services
-        builder.Services.AddScoped<IAuthService, AuthService>();
-        builder.Services.AddScoped<IRestService, RestService>();
+        builder.Services.AddTransient<IAuthService, AuthService>();
+        builder.Services.AddTransient<IRestService, RestService>();
         
         //UIs
-        builder.Services.AddTransient<LoadingPage>();
-        builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddSingleton<LoadingPage>();
+        builder.Services.AddSingleton<LoginPage>();
         builder.Services.AddTransient<CategoryPage>();
         builder.Services.AddTransient<ChannelPage>();
         builder.Services.AddTransient<EpgsPage>();
         builder.Services.AddTransient<PlayerPage>();
         
         //ModelViews
-        builder.Services.AddScoped<LoginViewModel>();
-        builder.Services.AddScoped<CategoryViewModel>();
-        builder.Services.AddScoped<ChannelViewModel>();
-        builder.Services.AddScoped<EpgsViewModel>();
-        builder.Services.AddScoped<PlayerViewModel>();  
+        builder.Services.AddSingleton<LoginViewModel>();
+        builder.Services.AddSingleton<CategoryViewModel>();
+        builder.Services.AddSingleton<ChannelViewModel>();
+        builder.Services.AddSingleton<EpgsViewModel>();
+        builder.Services.AddSingleton<PlayerViewModel>();  
         
 
 #if DEBUG

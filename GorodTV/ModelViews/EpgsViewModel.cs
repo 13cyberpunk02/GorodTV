@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GorodTV.Models.Responses.Epg;
 using GorodTV.Models.Responses.OnlineStream;
-using GorodTV.Pages;
 using GorodTV.Services;
 using GorodTV.Services.Interfaces;
 
@@ -19,17 +18,13 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
     [ObservableProperty] 
     private string _channelName;
     [ObservableProperty] 
-    private OnlineStream _onlineStream;
-    [ObservableProperty] 
-    private string _categoryId;
-    [ObservableProperty] 
-    private string _categoryName;
+    private OnlineStream? _onlineStream;
     [ObservableProperty] 
     private Dictionary<int, string> _timeStamps;
     [ObservableProperty] 
     private ObservableCollection<Epg> _epgs;
     [ObservableProperty]
-    private Epg _selectedEpg;
+    private Epg? _selectedEpg;
     
     private readonly IRestService _restService;
     public IAsyncRelayCommand LoadEpgsCommand { get; }
@@ -47,17 +42,22 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 
     private async Task LoadEpgsAsync()
     {
+        if (Epgs.Any())
+            return;
+
         var unixTime = await _restService.GetUnixTimeAsync();
         var response = await _restService.GetEpgOneDay(unixTime.Unixtime, ChannelId);
-
+        
         if (response?.Epgs != null)
         {
             var sortedEpgs = response.Epgs.OrderBy(e => UnixTimeStampToDateTime(double.Parse(e.Start_Time))).ToList();
 
-            OnlineStream = new OnlineStream(
-                Name: ChannelName,
-                Link: ChannelLink,
-                Description: "Прямой эфир");
+            OnlineStream = new OnlineStream
+            {
+                Description = "Прямой эфир",
+                Link = ChannelLink,
+                Name = ChannelName
+            };
 
             foreach (var epg in sortedEpgs)
             {
@@ -66,7 +66,14 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
                 
                 if(DateTime.Now < UnixTimeStampToDateTime(double.Parse(epg.Start_Time)))
                     break;
-                Epgs.Add(epg with { Start_Time = GetNormalTime(epg.Start_Time) });
+                Epgs.Add(new Epg
+                {
+                    Caption = epg.Caption,
+                    Description = epg.Description,
+                    Id = epg.Id,
+                    Record = epg.Record,
+                    Start_Time = GetNormalTime(epg.Start_Time)
+                });
             }
         }
     }
@@ -78,12 +85,10 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
         var link = OnlineStream.Link.Replace("%TIMESTAMP%", "0");
         var parameters = new Dictionary<string, object>
         {
-            { "channelLink", link },
-            { "channelName", OnlineStream.Name},
-            { "channelId", ChannelId}
+            { "channelLink", link }
         };
-        OnlineStream = null;
-        await Shell.Current.GoToAsync($"///{nameof(PlayerPage)}", parameters);
+        OnlineStream = null;        
+        await Shell.Current.GoToAsync("category/channel/epg/player", parameters);
     }
 
     [RelayCommand]
@@ -99,14 +104,12 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 
         var parameters = new Dictionary<string, object>
         {
-            { "channelLink", link },
-            { "channelName", ChannelName },
-            { "channelId", ChannelId}
+            { "channelLink", link }
         };
-        await Shell.Current.GoToAsync($"///{nameof(PlayerPage)}", parameters);
+        await Shell.Current.GoToAsync("category/channel/epg/player", parameters);
     }
 
-    partial void OnSelectedEpgChanged(Epg value)
+    partial void OnSelectedEpgChanged(Epg? value)
     {
         if (value is not null)
         {
@@ -137,38 +140,7 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 
         if (query.ContainsKey("channelName") && query["channelName"] is not null)
             ChannelName = query["channelName"] as string;
-        
-        if (query.ContainsKey("categoryId") && query["categoryId"] is not null)
-            CategoryId = query["categoryId"] as string;
-
-        if (query.ContainsKey("categoryName") && query["categoryName"] is not null)
-            CategoryName = query["categoryName"] as string;
 
         LoadEpgsCommand.Execute(null);  
-    }
-    
-    public void GoBackToChannelsPage()
-    {
-        var parameters = new Dictionary<string, object>
-        {
-            { "categoryId", CategoryId },
-            { "categoryName", CategoryName }
-        };
-        Shell.Current.GoToAsync($"///{nameof(ChannelPage)}", parameters);
-    }
-    
-    public void ClearBackwardsFromEpg()
-    {
-        TimeStamps.Clear();
-        Epgs.Clear();
-        ChannelId = null;
-        ChannelLink = null;
-        ChannelName = null;
-    }
-
-    public void ClearBackwardsFromPlayer()
-    {
-        TimeStamps.Clear();
-        Epgs.Clear();
     }
 }

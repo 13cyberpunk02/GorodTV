@@ -1,26 +1,26 @@
 ﻿using GorodTV.ModelViews;
+
 namespace GorodTV.Pages;
 
 public partial class EpgsPage : ContentPage
 {
-    private EpgsViewModel _viewModel;
     public EpgsPage()
     {
         InitializeComponent();
-        _viewModel = new EpgsViewModel();
-        BindingContext = _viewModel;
     }
 
     protected override bool OnBackButtonPressed()
     {
-        _viewModel.ClearBackwardsFromEpg();
-        _viewModel.GoBackToChannelsPage();
+        Shell.Current.GoToAsync($"..");
         return true;
     }
 
-    protected override void OnDisappearing()
+    protected override void OnAppearing()
     {
-        base.OnDisappearing();
-        _viewModel.ClearBackwardsFromPlayer();
+        base.OnAppearing();
+        if (BindingContext is EpgsViewModel vm) 
+        {
+            vm.LoadEpgsCommand.Execute(null);
+        }
     }
 }

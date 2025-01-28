@@ -43,6 +43,6 @@ public partial class LoginViewModel : ObservableObject
             return;
         }
         await Shell.Current.DisplayAlert("Авторизация", result.Message, "OK");
-        await Shell.Current.GoToAsync($"//{nameof(CategoryPage)}");
+        await Shell.Current.GoToAsync($"{nameof(CategoryPage)}");
     }
 }

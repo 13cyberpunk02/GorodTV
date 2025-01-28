@@ -6,6 +6,11 @@
     xmlns:vm="clr-namespace:GorodTV.ModelViews"
     x:DataType="vm:LoginViewModel"
     Background="White">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <Shell.TitleView>
         <Label
             FontAttributes="Bold"

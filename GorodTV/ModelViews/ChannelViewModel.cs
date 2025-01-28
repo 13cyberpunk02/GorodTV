@@ -20,19 +20,19 @@ public partial class ChannelViewModel :  ObservableObject, IQueryAttributable
     private Channel _selectedChannel;
 
     private IRestService _restService { get; }
-    private List<Channel> allChannels;
+    private List<Channel> _allChannels;
     public IAsyncRelayCommand LoadChannelsCommand { get; } 
     public ChannelViewModel()
     {
         Channels = new ObservableCollection<Channel>();
-        allChannels = new List<Channel>();
+        _allChannels = new List<Channel>();
         _restService = new RestService();
         LoadChannelsCommand = new AsyncRelayCommand(LoadChannelsAsync);
     }
     
     private async Task LoadChannelsAsync()
     {
-        if(allChannels.Count > 0)
+        if(_allChannels.Count > 0)
         {
             FilterChannels();
             return;
@@ -45,7 +45,7 @@ public partial class ChannelViewModel :  ObservableObject, IQueryAttributable
             return;
         }
 
-        allChannels = channelsResponse.Channels;
+        _allChannels = channelsResponse.Channels;
         
         FilterChannels();
     }
@@ -55,7 +55,7 @@ public partial class ChannelViewModel :  ObservableObject, IQueryAttributable
         if (string.IsNullOrEmpty(CategoryId))
             return;
 
-        var filteredChannels = allChannels
+        var filteredChannels = _allChannels
             .Where(c => c.Category == CategoryId)
             .ToList();
 
@@ -78,13 +78,10 @@ public partial class ChannelViewModel :  ObservableObject, IQueryAttributable
         {
             { "channelId", SelectedChannel.Id },            
             { "channelLink", link },
-            { "channelName", SelectedChannel.Name },
-            { "categoryId", CategoryId },
-            { "categoryName", CategoryName }
-            
+            { "channelName", SelectedChannel.Name }
         };
         SelectedChannel = null;
-        await Shell.Current.GoToAsync($"///{nameof(EpgsPage)}", parameters);
+        await Shell.Current.GoToAsync("category/channel/epg", parameters);
     }
 
     partial void OnSelectedChannelChanged(Channel value)

@@ -16,7 +16,7 @@ public partial class CategoryViewModel : ObservableObject
     [ObservableProperty]
     private Category _selectedCategory;
     
-    private IRestService _restService;
+    private readonly IRestService _restService;
     public IAsyncRelayCommand LoadCategoriesCommand { get; }
 
     public CategoryViewModel()
@@ -54,7 +54,7 @@ public partial class CategoryViewModel : ObservableObject
             { "categoryName", SelectedCategory.Name }
         };
         SelectedCategory = null;
-        await Shell.Current.GoToAsync($"///{nameof(ChannelPage)}", parameters);
+        await Shell.Current.GoToAsync("category/channel", parameters);
     }
 
     partial void OnSelectedCategoryChanged(Category value)

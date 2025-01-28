@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GorodTV.ModelViews;
+﻿using GorodTV.ModelViews;
 
 namespace GorodTV.Pages;
 
@@ -21,11 +16,11 @@ public partial class ChannelPage : ContentPage
         {
             vm.LoadChannelsCommand.Execute(null);
         }
-    }
+    }    
 
     protected override bool OnBackButtonPressed()
     {
-        Shell.Current.GoToAsync($"///{nameof(CategoryPage)}");
+        Shell.Current.GoToAsync("..");        
         return true;    
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
 using GorodTV.Core;
 using GorodTV.Models.Responses.Category;
 using GorodTV.Models.Responses.Channel;
@@ -37,13 +38,24 @@ public class RestService : IRestService
 
     public async Task<EpgsList> GetEpgOneDay(string startTime, string channelId)
     {
-        _httpClient = new HttpClient();
-        var sessionId = await SecureStorage.Default.GetAsync("sessionId");
-        var response = await _httpClient
-            .GetFromJsonAsync<EpgsList>(_baseApi.GetEpgRequestString(startTime, channelId, sessionId));
-        if (response is null)
-            return null;
-        return response; 
+        
+        using (_httpClient = new HttpClient())
+        {
+            try
+            {
+                var sessionId = await SecureStorage.Default.GetAsync("sessionId");
+                HttpResponseMessage response = await _httpClient.GetAsync(_baseApi.GetEpgRequestString(startTime, channelId, sessionId));
+                response.EnsureSuccessStatusCode();
+                string body = await response.Content.ReadAsStringAsync();
+                EpgsList epgs = JsonSerializer.Deserialize<EpgsList>(body);
+                return epgs;
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+        }            
     }
 
     public async Task<UnixTime> GetUnixTimeAsync()

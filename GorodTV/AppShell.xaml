@@ -4,28 +4,28 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:GorodTV.Pages"
-    Shell.FlyoutBehavior="Disabled"
-    Title="Gorod TV">
-    
-    <ShellContent ContentTemplate="{DataTemplate pages:LoadingPage}"
-                  Route="LoadingPage"
-                  Shell.NavBarIsVisible="False"/>
-    
-    <ShellContent ContentTemplate="{DataTemplate pages:LoginPage}"
-                  Route="LoginPage"
-                  Shell.NavBarIsVisible="False"/>
-    
-    <ShellContent ContentTemplate="{DataTemplate pages:CategoryPage}"
-                  Route="CategoryPage"
-                  Shell.BackgroundColor="#0D22B0"/>
-    
-    <ShellContent ContentTemplate="{DataTemplate pages:ChannelPage}"
-                  Route="ChannelPage"
-                  Shell.BackgroundColor="#0D22B0" />
-    
-    <ShellContent ContentTemplate="{DataTemplate pages:EpgsPage}"
-                  Route="EpgsPage"/>
-    
-    <ShellContent ContentTemplate="{DataTemplate pages:PlayerPage}"
-                  Route="PlayerPage"/>
+    Title="Gorod TV"
+    Shell.FlyoutBehavior="Disabled">
+
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:LoadingPage}"
+        Route="LoadingPage"
+        Shell.NavBarIsVisible="False" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:LoginPage}"
+        Route="LoginPage"
+        Shell.NavBarIsVisible="False" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:CategoryPage}"
+        Route="CategoryPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:ChannelPage}"
+        Route="ChannelPage"
+        Shell.BackgroundColor="#0D22B0" />
+
+    <ShellContent ContentTemplate="{DataTemplate pages:EpgsPage}" Route="EpgsPage" />
+
+    <ShellContent ContentTemplate="{DataTemplate pages:PlayerPage}" Route="PlayerPage" />
 </Shell>

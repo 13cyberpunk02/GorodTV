@@ -3,7 +3,7 @@
 namespace GorodTV.Pages;
 
 public partial class CategoryPage : ContentPage
-{
+{    
     public CategoryPage()
     {
         InitializeComponent();
@@ -14,10 +14,16 @@ public partial class CategoryPage : ContentPage
         base.OnAppearing();
         if (BindingContext is CategoryViewModel vm)
         {
-            if (!vm.Categories.Any())
+            if (vm.Categories.Count <= 0)
             {
                 vm.LoadCategoriesCommand.Execute(null);
             }
         }
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        Application.Current.Quit();
+        return true;        
     }
 }

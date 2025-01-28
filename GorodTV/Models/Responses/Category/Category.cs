@@ -1,8 +1,14 @@
 ﻿namespace GorodTV.Models.Responses.Category;
 
-public record Category(
-    string Id, 
-    string Name, 
-    string Icon);
+public class Category
+{
+    public required string Id { get; set; }
+    public required string Name { get; set; }
+    public required string Icon { get; set; }
+}
+    
 
-public record CategoriesList(List<Category> Categories);
+public class CategoriesList
+{
+   public required List<Category> Categories { get; set; } 
+}

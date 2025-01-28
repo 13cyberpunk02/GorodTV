@@ -8,14 +8,18 @@ namespace GorodTV.Services;
 
 public class AuthService : IAuthService
 {
-    private HttpClient _httpClient; 
+    private readonly HttpClient _httpClient; 
     private readonly BaseApi _baseApi = new BaseApi();
-    private readonly JsonSerializerOptions serializerOptions = new()
+    private readonly JsonSerializerOptions _serializerOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         WriteIndented = true
     };
-    
+
+    public AuthService()
+    {
+        _httpClient = new (); 
+    }
     public async Task<bool> CheckAuthorizationAsync()
     {
         try
@@ -57,7 +61,6 @@ public class AuthService : IAuthService
     {
         await SecureStorage.Default.SetAsync("username", model.Username);
         await SecureStorage.Default.SetAsync("password", model.Password);
-        _httpClient = new HttpClient();
         Uri uri = new Uri(_baseApi.GetAuthRequestString(model.Username, model.Password));
         try
         {
@@ -65,7 +68,7 @@ public class AuthService : IAuthService
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
-                var session = JsonSerializer.Deserialize<Session>(content, serializerOptions)!;
+                var session = JsonSerializer.Deserialize<Session>(content, _serializerOptions)!;
                 await SecureStorage.Default.SetAsync("sessionId", session.SessionId);
                 return new AuthResponse(IsSuccess: true, Message: "Успешная авторизация");;
             }
@@ -79,7 +82,6 @@ public class AuthService : IAuthService
     
     private async Task<string> Relogin(AuthRequest model)
     {
-        _httpClient = new HttpClient(); 
         Uri uri = new Uri(string.Format(_baseApi.GetAuthRequestString(model.Username, model.Password)));
         try
         {
@@ -87,7 +89,7 @@ public class AuthService : IAuthService
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
-                var session = JsonSerializer.Deserialize<Session>(content, serializerOptions)!;
+                var session = JsonSerializer.Deserialize<Session>(content, _serializerOptions)!;
                 await SecureStorage.Default.SetAsync("sessionId", session.SessionId);
                 return session.SessionId;
             }
@@ -101,7 +103,6 @@ public class AuthService : IAuthService
     
     private async Task<bool> CheckIsSessionIdValid(string sessionId)
     {
-        _httpClient = new HttpClient();
         Uri uri = new Uri(_baseApi.GetIsSessionValidString(sessionId));
         try
         {

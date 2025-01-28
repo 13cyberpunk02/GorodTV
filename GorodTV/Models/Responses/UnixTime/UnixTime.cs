@@ -1,3 +1,6 @@
 ﻿namespace GorodTV.Models.Responses.UnixTime;
 
-public record UnixTime(string Unixtime);
+public class UnixTime
+{
+    public required string Unixtime { get; set; }
+}
