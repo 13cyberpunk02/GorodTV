@@ -3,3 +3,7 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+/.vs
+/.idea/.idea.GorodTV/.idea
+/key.keystore
+/GorodTV.sln.DotSettings.user
