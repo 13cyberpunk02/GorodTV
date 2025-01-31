@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:GorodTV.ModelViews"
     x:DataType="vm:LoginViewModel"
-    Background="White">
+    Background="White"
+    Shell.BackgroundColor="#0D22B0">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />

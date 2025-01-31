@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GorodTV.Models.Responses.Category;
-using GorodTV.Pages;
 using GorodTV.Services;
 using GorodTV.Services.Interfaces;
 

@@ -10,5 +10,6 @@ public interface IRestService
     Task<CategoriesList> GetCategoriesRequest();
     Task<ChannelsList> GetChannelsRequest();
     Task<EpgsList> GetEpgOneDay(string startTime, string channelId);
+    Task<List<EpgsList>> GetEpgsForTwoWeeks(string startTime, string channelId);
     Task<UnixTime> GetUnixTimeAsync();
 }

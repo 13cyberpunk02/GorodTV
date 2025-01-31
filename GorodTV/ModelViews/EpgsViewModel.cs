@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GorodTV.Models.Responses.Epg;
 using GorodTV.Models.Responses.OnlineStream;
+using GorodTV.Models.Responses.UnixTime;
 using GorodTV.Services;
 using GorodTV.Services.Interfaces;
 
@@ -47,6 +48,7 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 
         var unixTime = await _restService.GetUnixTimeAsync();
         var response = await _restService.GetEpgOneDay(unixTime.Unixtime, ChannelId);
+        var epgsFor2Weeks = await _restService.GetEpgsForTwoWeeks(unixTime.Unixtime, ChannelId);
         
         if (response?.Epgs != null)
         {

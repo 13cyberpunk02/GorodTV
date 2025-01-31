@@ -58,6 +58,35 @@ public class RestService : IRestService
         }            
     }
 
+    public async Task<List<EpgsList>> GetEpgsForTwoWeeks(string startTime, string channelId)
+    {
+        using (_httpClient = new HttpClient())
+        {
+            try
+            {
+                List<EpgsList> epgsForTwoWeeks = new List<EpgsList>();
+                var sessionId = await SecureStorage.Default.GetAsync("sessionId");
+                var currentTimestamp = long.Parse(startTime);
+                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(currentTimestamp).LocalDateTime;
+                for (int i = -14; i < 0; i++)
+                {
+                    var date = dateTimeOffset.AddDays(i);
+                    HttpResponseMessage response = await _httpClient.GetAsync(_baseApi.GetEpgRequestString(date.ToUnixTimeSeconds().ToString(), channelId, sessionId));
+                    response.EnsureSuccessStatusCode();
+                    string body = await response.Content.ReadAsStringAsync();
+                    EpgsList epgForOneDay = JsonSerializer.Deserialize<EpgsList>(body);
+                    epgsForTwoWeeks.Add(epgForOneDay);
+                }
+                return epgsForTwoWeeks;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+        }
+    }
+
     public async Task<UnixTime> GetUnixTimeAsync()
     {
         _httpClient = new HttpClient();
@@ -65,5 +94,5 @@ public class RestService : IRestService
         if (response is null)
             return null;
         return response;
-    }
+    }   
 }

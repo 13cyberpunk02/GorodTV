@@ -19,11 +19,11 @@ public partial class LoadingPage : ContentPage
             base.OnNavigatedTo(args);
             if (await _authService.CheckAuthorizationAsync())
             {
-                await Shell.Current.GoToAsync("/category");
+                await Shell.Current.GoToAsync("category");
             }
             else
-            {
-                await Shell.Current.GoToAsync("/login");
+            {                
+                await Shell.Current.GoToAsync("login");
             }
         }
         catch (Exception e)

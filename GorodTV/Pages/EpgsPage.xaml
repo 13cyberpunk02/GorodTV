@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
 <ContentPage
     x:Class="GorodTV.Pages.EpgsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -29,7 +28,10 @@
 
     <ContentPage.Content>
         <Grid Padding="10" RowDefinitions="Auto, *">
+
+            <!--  Button for start live broadcast  -->
             <Button
+                Grid.Row="0"
                 BackgroundColor="Red"
                 Command="{Binding StartLiveBroadcastCommand}"
                 CornerRadius="20"
@@ -41,6 +43,8 @@
                 TextColor="#FFFFFF"
                 VerticalOptions="Center"
                 WidthRequest="300" />
+
+            <!--  CollectionView for EPG  -->
             <CollectionView
                 Grid.Row="1"
                 Margin="10"
