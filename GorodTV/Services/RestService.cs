@@ -68,11 +68,14 @@ public class RestService : IRestService
                 var sessionId = await SecureStorage.Default.GetAsync("sessionId");
                 var currentTimestamp = long.Parse(startTime);
                 DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(currentTimestamp).LocalDateTime;
-                for (int i = -14; i < 0; i++)
+                for (int i = 0; i >= -14; i--)
                 {
                     var date = dateTimeOffset.AddDays(i);
+                    Console.WriteLine(_baseApi.GetEpgRequestString(date.ToUnixTimeSeconds().ToString(), channelId, sessionId));
                     HttpResponseMessage response = await _httpClient.GetAsync(_baseApi.GetEpgRequestString(date.ToUnixTimeSeconds().ToString(), channelId, sessionId));
+                    
                     response.EnsureSuccessStatusCode();
+                    
                     string body = await response.Content.ReadAsStringAsync();
                     EpgsList epgForOneDay = JsonSerializer.Deserialize<EpgsList>(body);
                     epgsForTwoWeeks.Add(epgForOneDay);
@@ -82,7 +85,7 @@ public class RestService : IRestService
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return null;
+                return new List<EpgsList>();
             }
         }
     }

@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GorodTV.Models.Responses.Epg;
 using GorodTV.Models.Responses.OnlineStream;
-using GorodTV.Models.Responses.UnixTime;
 using GorodTV.Services;
 using GorodTV.Services.Interfaces;
 
@@ -14,18 +13,24 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 {
     [ObservableProperty] 
     private string _channelId;
+    
     [ObservableProperty] 
     private string _channelLink;
+    
     [ObservableProperty] 
     private string _channelName;
+    
     [ObservableProperty] 
     private OnlineStream? _onlineStream;
+    
     [ObservableProperty] 
     private Dictionary<int, string> _timeStamps;
+    
     [ObservableProperty] 
-    private ObservableCollection<Epg> _epgs;
+    private ObservableCollection<List<Epg>> _epgs;
+
     [ObservableProperty]
-    private Epg? _selectedEpg;
+    private Epg _selectedEpg;
     
     private readonly IRestService _restService;
     public IAsyncRelayCommand LoadEpgsCommand { get; }
@@ -33,8 +38,8 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 
     public EpgsViewModel()
     {
-        Epgs = new ObservableCollection<Epg>();
-        TimeStamps = new Dictionary<int, string>();
+        Epgs = new();
+        TimeStamps = new();        
         _restService = new RestService();
         LoadEpgsCommand = new AsyncRelayCommand(LoadEpgsAsync);
         StartLiveBroadcastCommand = new AsyncRelayCommand(StartLiveBroadcastAsync);
@@ -46,14 +51,11 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
         if (Epgs.Any())
             return;
 
-        var unixTime = await _restService.GetUnixTimeAsync();
-        var response = await _restService.GetEpgOneDay(unixTime.Unixtime, ChannelId);
+        var unixTime = await _restService.GetUnixTimeAsync();        
         var epgsFor2Weeks = await _restService.GetEpgsForTwoWeeks(unixTime.Unixtime, ChannelId);
         
-        if (response?.Epgs != null)
+        if (epgsFor2Weeks.Any())
         {
-            var sortedEpgs = response.Epgs.OrderBy(e => UnixTimeStampToDateTime(double.Parse(e.Start_Time))).ToList();
-
             OnlineStream = new OnlineStream
             {
                 Description = "Прямой эфир",
@@ -61,22 +63,29 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
                 Name = ChannelName
             };
 
-            foreach (var epg in sortedEpgs)
+            foreach (var epgs in epgsFor2Weeks)
             {
-                if(!TimeStamps.ContainsKey(int.Parse(epg.Id)))
-                    TimeStamps.Add(int.Parse(epg.Id), epg.Start_Time);  
-                
-                if(DateTime.Now < UnixTimeStampToDateTime(double.Parse(epg.Start_Time)))
-                    break;
-                Epgs.Add(new Epg
+                var sortedEpg = epgs.Epgs.OrderBy(e => UnixTimeStampToDateTime(double.Parse(e.Start_Time))).ToList();
+                var epgsToAdd = new List<Epg>();
+                foreach (var epg in sortedEpg)
                 {
-                    Caption = epg.Caption,
-                    Description = epg.Description,
-                    Id = epg.Id,
-                    Record = epg.Record,
-                    Start_Time = GetNormalTime(epg.Start_Time)
-                });
-            }
+                    if (!TimeStamps.ContainsKey(int.Parse(epg.Id)))
+                        TimeStamps.Add(int.Parse(epg.Id), epg.Start_Time);
+
+                    if (DateTime.Now < UnixTimeStampToDateTime(double.Parse(epg.Start_Time)))
+                        break;
+
+                    epgsToAdd.Add(new Epg
+                    {
+                        Caption = epg.Caption,
+                        Description = epg.Description,
+                        Id = epg.Id,
+                        Record = epg.Record,
+                        Start_Time = GetNormalTime(epg.Start_Time)
+                    });
+                }
+                Epgs.Add(epgsToAdd);                
+            }            
         }
     }
 
@@ -88,20 +97,20 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
         var parameters = new Dictionary<string, object>
         {
             { "channelLink", link }
-        };
-        OnlineStream = null;        
+        };          
         await Shell.Current.GoToAsync("category/channel/epg/player", parameters);
     }
 
     [RelayCommand]
-    private async Task SelectedEpgAsync()
+    private async Task SelectedEpgAsync(Epg epg)
     {
-        if(SelectedEpg is null)
+        if(epg is null)
             return;
+        SelectedEpg = epg;
         var link = ChannelLink;
         var stamp = TimeStamps[int.Parse(SelectedEpg.Id)];
         link = link.Replace("%TIMESTAMP%", stamp);
-        
+
         SelectedEpg = null;
 
         var parameters = new Dictionary<string, object>
@@ -115,7 +124,7 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
     {
         if (value is not null)
         {
-            SelectedEpgCommand.Execute(null);
+            SelectedEpgCommand.Execute(value);
         }
     }
 

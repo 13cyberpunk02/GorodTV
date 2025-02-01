@@ -4,6 +4,7 @@ using GorodTV.Pages;
 using GorodTV.Services;
 using GorodTV.Services.Interfaces;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace GorodTV;
 
@@ -23,6 +24,13 @@ public static class MauiProgram
                 fonts.AddFont("Pacifico.ttf", "Pacifico");
                 fonts.AddFont("RobotoSlab.ttf", "RobotoSlab");
                 fonts.AddFont("RussoOne-Regular.ttf", "RussoOneRegular");
+            })
+            .ConfigureLifecycleEvents(events =>
+            {
+                events
+                .AddAndroid(android => android
+                .OnPause((activity) => OnPause())
+                .OnResume((activity) => OnResume()));                
             });
         
         //Services
@@ -42,13 +50,34 @@ public static class MauiProgram
         builder.Services.AddSingleton<CategoryViewModel>();
         builder.Services.AddSingleton<ChannelViewModel>();
         builder.Services.AddSingleton<EpgsViewModel>();
-        builder.Services.AddSingleton<PlayerViewModel>();  
-        
+        builder.Services.AddSingleton<PlayerViewModel>();
 
 #if DEBUG
-        builder.Logging.AddDebug();
+    builder.Logging.AddDebug();
 #endif
 
         return builder.Build();
+    }
+
+    private static void OnPause()
+    {
+        // Приложение переходит в фоновый режим
+        // Остановить воспроизведение видео        
+        if (Shell.Current.CurrentPage is ContentPage contentPage &&
+            contentPage is PlayerPage playerPage)
+        {            
+            playerPage.PauseVideo();
+        }
+    }
+
+    private static void OnResume()
+    {
+        // Приложение возвращается на передний план
+        // Можно возобновить воспроизведение, если нужно
+        if (Shell.Current.CurrentPage is ContentPage contentPage &&
+            contentPage is PlayerPage playerPage)
+        {
+            playerPage.PlayVideo();
+        }
     }
 }
