@@ -55,13 +55,15 @@
                                 Aspect="AspectFit"
                                 HeightRequest="80"
                                 HorizontalOptions="Center"
+                                VerticalOptions="Center"
                                 Source="{Binding Icon}"
                                 WidthRequest="80" />
                             <Label
                                 Margin="5"
                                 FontFamily="RussoOneRegular"
-                                FontSize="16"
+                                FontSize="14"
                                 HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
                                 Text="{Binding Name}"
                                 TextColor="White"
                                 VerticalTextAlignment="Center" />

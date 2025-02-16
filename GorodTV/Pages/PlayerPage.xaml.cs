@@ -6,6 +6,7 @@ public partial class PlayerPage : ContentPage
     public PlayerPage()
     {
         InitializeComponent();
+        Player.ShouldShowPlaybackControls = false;
     }
     
     protected override bool OnBackButtonPressed()
@@ -15,7 +16,7 @@ public partial class PlayerPage : ContentPage
     }
     
     protected override void OnAppearing()
-    {
+    {        
         base.OnAppearing();
         PlayVideo();
     }

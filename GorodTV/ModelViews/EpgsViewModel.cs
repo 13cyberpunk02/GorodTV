@@ -38,7 +38,7 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
 
     public EpgsViewModel()
     {
-        Epgs = new();
+        Epgs = new();        
         TimeStamps = new();        
         _restService = new RestService();
         LoadEpgsCommand = new AsyncRelayCommand(LoadEpgsAsync);
@@ -71,7 +71,7 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
                 {
                     if (!TimeStamps.ContainsKey(int.Parse(epg.Id)))
                         TimeStamps.Add(int.Parse(epg.Id), epg.Start_Time);
-
+                        
                     if (DateTime.Now < UnixTimeStampToDateTime(double.Parse(epg.Start_Time)))
                         break;
 
@@ -120,7 +120,7 @@ public partial class EpgsViewModel : ObservableObject, IQueryAttributable
         await Shell.Current.GoToAsync("category/channel/epg/player", parameters);
     }
 
-    partial void OnSelectedEpgChanged(Epg? value)
+    partial void OnSelectedEpgChanged(Epg value)
     {
         if (value is not null)
         {

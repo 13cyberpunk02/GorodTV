@@ -41,7 +41,7 @@
                 Aspect="AspectFit"
                 HeightRequest="200"
                 HorizontalOptions="Center"
-                Source="logo.svg"
+                Source="il.svg"
                 VerticalOptions="Center"
                 WidthRequest="200" />
 
